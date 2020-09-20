@@ -1,12 +1,18 @@
 import React from 'react';
-import './App.less';
-import Home from './component/Home';
+import './App.sass';
+import {HashRouter as Router} from 'react-router-dom';
+import {renderRoutes} from 'react-router-config';
+import {rootRoutes} from './router/routes';
 
 function App() {
     return (
-        <div className="App">
-            <Home/>
-        </div>
+        <Router>
+            <div className="App">
+                {
+                    renderRoutes(rootRoutes)
+                }
+            </div>
+        </Router>
     );
 }
 
