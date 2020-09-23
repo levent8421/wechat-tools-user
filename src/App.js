@@ -1,5 +1,5 @@
 import React from 'react';
-import './App.sass';
+import './App.less';
 import {HashRouter as Router} from 'react-router-dom';
 import {renderRoutes} from 'react-router-config';
 import {rootRoutes} from './router/routes';

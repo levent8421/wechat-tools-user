@@ -1,7 +1,8 @@
-import React, {Component} from 'react';
+import {Component} from 'react';
+import {mapStateAndActions} from '../store/storeUtils';
 
 class BaseComponent extends Component {
 
 }
 
-export default BaseComponent;
+export default mapStateAndActions(BaseComponent);

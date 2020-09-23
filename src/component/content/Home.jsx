@@ -1,8 +1,13 @@
-import React, {Component} from 'react';
-import {me} from '../api/user';
-import {Button} from 'antd-mobile';
+import React from 'react';
+import {me} from '../../api/user';
+import {Button} from 'antd-mobile/lib/index';
+import BaseComponent from '../BaseComponent';
 
-class Home extends Component {
+class Home extends BaseComponent {
+    constructor(props) {
+        super(props);
+    }
+
     componentDidMount() {
         this.refresh();
     }
