@@ -1,5 +1,5 @@
 import {connect} from 'react-redux';
-import {setToken} from './actionCreators';
+import {setTitle, setToken, setUserInfo} from './actionCreators';
 
 const mapAllState2Props = (state, props) => {
     return {
@@ -13,7 +13,9 @@ const asPropFun = (fun, dispatch) => {
 const mapAllAction2Props = (dispatch, props) => {
     return {
         ...props,
-        setToken: asPropFun(setToken),
+        setToken: asPropFun(setToken, dispatch),
+        setTitle: asPropFun(setTitle, dispatch),
+        setUserInfo: asPropFun(setUserInfo, dispatch),
     };
 };
 

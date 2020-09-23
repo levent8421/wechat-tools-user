@@ -3,16 +3,20 @@ import './App.less';
 import {HashRouter as Router} from 'react-router-dom';
 import {renderRoutes} from 'react-router-config';
 import {rootRoutes} from './router/routes';
+import {Provider} from 'react-redux';
+import store from './store';
 
 function App() {
     return (
-        <Router>
-            <div className="App">
-                {
-                    renderRoutes(rootRoutes)
-                }
-            </div>
-        </Router>
+        <Provider store={store}>
+            <Router>
+                <div className="App">
+                    {
+                        renderRoutes(rootRoutes)
+                    }
+                </div>
+            </Router>
+        </Provider>
     );
 }
 

@@ -6,6 +6,7 @@ const getToken = () => {
     return storageGet(TOKEN_STORAGE_NAME);
 };
 const setToken = token => {
+    token = decodeURIComponent(token);
     storageSave(TOKEN_STORAGE_NAME, token);
 };
 export const register = registerFunc => {
@@ -24,4 +25,4 @@ export const register = registerFunc => {
 };
 
 
-export const getStorageToken = getToken();
+export const getStorageToken = getToken;

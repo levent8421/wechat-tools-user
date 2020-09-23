@@ -1,13 +1,11 @@
 import {getStorageToken, register as tokenStoreRegister} from './tokenStore';
-
+import {register as uiStoreRegister} from './uiStore';
 
 const defaultState = {
-    me: null,
+    me: {},
+    merchant: {},
     webToken: getStorageToken(),
-    title: {
-        mainTitle: 'WechatTools',
-        subTitle: 'WechatTools',
-    },
+    title: 'Wechat Tools',
 };
 
 const actionTable = {};
@@ -15,6 +13,7 @@ const registerReducer = (type, reducer) => {
     actionTable[type] = reducer;
 };
 tokenStoreRegister(registerReducer);
+uiStoreRegister(registerReducer);
 
 export default (state = defaultState, action) => {
     const type = action.type;
