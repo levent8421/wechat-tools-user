@@ -20,6 +20,9 @@ export const register = registerFunc => {
         if (action.user) {
             resState.me = action.user;
         }
+        if (action.merchant) {
+            resState.merchant = action.merchant;
+        }
         return resState;
     });
 };

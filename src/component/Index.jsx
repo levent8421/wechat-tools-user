@@ -2,18 +2,18 @@ import React, {Component} from 'react';
 import {dict2arr} from '../util/collectionUtils';
 import logo from '../image/logo.webp';
 import './Index.less';
-import {Button, Card, Flex, InputItem, List, Modal} from 'antd-mobile';
+import {Button, Card, Flex, InputItem, List, Toast} from 'antd-mobile';
 import {formatSearch} from '../util/pathUtils';
 import {showToast} from '../util/toastUtils';
 import {mapStateAndActions} from '../store/storeUtils';
-import {me, mockLogin} from '../api/user';
+import {mockLogin} from '../api/user';
 
 class Index extends Component {
     constructor(props) {
         super(props);
         this.state = {
             params: [],
-            loadingVisible: false,
+            loadingVisible: true,
             mockUserId: 1,
         };
     }
@@ -30,55 +30,33 @@ class Index extends Component {
 
     checkSearchParam(params) {
         const token = params.token || this.props.webToken;
-        console.log(token);
         if (token) {
             showToast('登录成功');
             this.props.setToken(token);
+            this.showLoading(false);
         }
-        this.tryLoadUserInfo(user => {
-            this.goNextPath(user, params);
-        });
+        this.goNextPath(params);
     }
 
-    goNextPath(user, params) {
-        this.props.setUserInfo(user, user.merchant);
-        const {history} = this.props;
-        const {next, msg} = params;
+    goNextPath(params) {
+        const {next, msg, debug} = params;
+        const {history, webToken} = this.props;
         if (next) {
             history.replace({
-                pathname: '/error',
+                pathname: next,
                 search: `?msg=${msg}`,
             });
         } else {
-            if (user) {
-                history.replace({
-                    pathname: '/c/',
-                });
-            } else {
-                Modal.alert('未登录',
-                    '用户未登录，无法跳转，请关闭页面重试',
-                    [
-                        {
-                            text: '关闭页面',
-                            onPress: () => {
-                                alert('关闭');
-                                this.showLoading(false);
-                            },
-                        },
-                    ]);
-            }
-        }
-    }
-
-    tryLoadUserInfo(callback) {
-        const {webToken} = this.props;
-        if (webToken) {
-            me().then(res => {
+            if (debug) {
+                Toast.show('调试模式', 3, false);
                 this.showLoading(false);
-                callback(res);
-            }).catch(() => this.showLoading(false));
-        } else {
-            callback(false);
+                return;
+            }
+            if (webToken) {
+                history.push({pathname: '/c/'});
+            } else {
+                history.push({pathname: '/error', search: '?msg=登录失败，无法跳转'});
+            }
         }
     }
 

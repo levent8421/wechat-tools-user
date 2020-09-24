@@ -3,6 +3,7 @@ import Index from '../component/Index';
 import RootContent from '../component/RootContent';
 
 import Home from '../component/content/Home';
+import InviteFollowAppDetails from '../component/content/InviteFollowAppDetails';
 
 const rootRoutes = [
     {
@@ -28,7 +29,12 @@ const contentRoutes = [
         path: '/c/',
         exact: true,
         component: Home,
-    }
+    },
+    {
+        path: '/c/invite-follow-app',
+        exact: true,
+        component: InviteFollowAppDetails,
+    },
 ];
 
 export {
