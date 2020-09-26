@@ -6,6 +6,7 @@ const defaultState = {
     merchant: {},
     webToken: getStorageToken(),
     title: 'Wechat Tools',
+    navBarVisible: true,
 };
 
 const actionTable = {};

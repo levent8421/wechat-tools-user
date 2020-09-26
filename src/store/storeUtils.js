@@ -1,5 +1,5 @@
 import {connect} from 'react-redux';
-import {setTitle, setToken, setUserInfo} from './actionCreators';
+import {setTitle, setToken, setUserInfo, showNavBar} from './actionCreators';
 
 const mapAllState2Props = (state, props) => {
     return {
@@ -16,6 +16,7 @@ const mapAllAction2Props = (dispatch, props) => {
         setToken: asPropFun(setToken, dispatch),
         setTitle: asPropFun(setTitle, dispatch),
         setUserInfo: asPropFun(setUserInfo, dispatch),
+        showNavBar: asPropFun(showNavBar, dispatch),
     };
 };
 

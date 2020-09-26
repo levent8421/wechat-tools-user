@@ -31,15 +31,25 @@ class RootContent extends Component {
     renderErrorModal() {
     }
 
-    render() {
-        const _this = this;
+    renderNavBar() {
+        const {navBarVisible} = this.props;
+        if (!navBarVisible) {
+            return;
+        }
         const {title} = this.props;
-        return (
-            <div className="content">
-                <NavBar mode="light"
+        return (<NavBar mode="light"
                         icon={<LeftOutlined/>}
                         rightContent={<DashOutlined/>}
-                        onLeftClick={() => this.back()}>{title}</NavBar>
+                        onLeftClick={() => this.back()}>{title}</NavBar>);
+    }
+
+    render() {
+        const _this = this;
+        return (
+            <div className="content">
+                {
+                    _this.renderNavBar()
+                }
                 {
                     renderRoutes(contentRoutes)
                 }
