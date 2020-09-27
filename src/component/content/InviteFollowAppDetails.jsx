@@ -1,24 +1,25 @@
 import React, {Component} from 'react';
 import {formatSearch} from '../../router/pathUtils';
-import {fetchAppInfo} from '../../api/inviteFollowApp';
+import {doDraw, fetchAppInfo} from '../../api/inviteFollowApp';
 import './InviteFollowAppDetails.less';
 import {mapStateAndActions} from '../../store/storeUtils';
 import {normalizePrizes} from '../../util/prizeUtils';
+import {asSquare} from '../../util/styleUtils';
+import SquareImage from '../common/SquareImage';
 
+const findPrize = (id, prizes) => {
+    for (let prize of prizes) {
+        if (prize.id === id) {
+            return prize;
+        }
+    }
+    return false;
+};
 const onImageClick = (img) => {
     const {url} = img;
     if (url) {
         console.error('暂不支持跳转', url);
     }
-};
-const normalizeImage = img => {
-    if (!img) {
-        return;
-    }
-    const {width, height} = img;
-    const size = Math.max(width, height);
-    img.width = size;
-    img.height = size;
 };
 
 class InviteFollowAppDetails extends Component {
@@ -30,7 +31,7 @@ class InviteFollowAppDetails extends Component {
             prizeLeft: {},
             prizeRight: {},
             prizesBottom: [],
-            activePrize: 1,
+            activePrize: -1,
         };
     }
 
@@ -55,12 +56,40 @@ class InviteFollowAppDetails extends Component {
     }
 
     draw() {
-        setInterval(() => {
-            const {activePrize} = this.state;
+        doDraw(this.appId).then(res => {
+            const {id} = res;
+            const {prizesTop, prizesBottom, prizeLeft, prizeRight} = this.state;
+            const prizes = prizesTop.concat(prizesBottom, prizeRight, prizeLeft);
+            const prize = findPrize(id, prizes);
+            const keySeq = [];
+            for (let i = 0; i < 16; i++) {
+                keySeq.push(i % 8);
+            }
+            if (prize) {
+                for (let i = 0; i <= prize.key; i++) {
+                    keySeq.push(i);
+                }
+            } else {
+                keySeq.push(-1);
+            }
+            this.animationInterval = 50;
+            this.animationIndex = 0;
+            this.showAnimation(keySeq);
+        });
+    }
+
+    showAnimation(keySeq) {
+        this.animationIndex = this.animationIndex + 1;
+        if (this.animationIndex >= keySeq.length) {
+            return;
+        }
+        this.animationInterval = this.animationInterval + 20;
+        setTimeout(() => {
             this.setState({
-                activePrize: (activePrize + 1) % 8
-            })
-        }, 200);
+                activePrize: keySeq[this.animationIndex],
+            });
+            this.showAnimation(keySeq);
+        }, this.animationInterval);
     }
 
     renderPrize(prize) {
@@ -69,15 +98,18 @@ class InviteFollowAppDetails extends Component {
         if (activePrize === prize.key) {
             classNames.push('active');
         }
-        return (<div className={classNames.join(' ')} key={prize.id}>
+        return (<div className={classNames.join(' ')} key={prize.id} ref={asSquare}>
             <div className="inner">
-                <img src={prize.image} alt={prize.name} ref={normalizeImage}/>
+                <div className="image-wrapper">
+                    <SquareImage src={prize.image} alt={prize.name}/>
+                </div>
                 <p className="name">{prize.name}</p>
             </div>
         </div>);
     }
 
     render() {
+        const _this = this;
         const {app, prizesTop, prizeLeft, prizeRight, prizesBottom} = this.state;
         const images = app.images || [];
         return (
@@ -95,23 +127,23 @@ class InviteFollowAppDetails extends Component {
                     <div className="prizes">
                         <div className="row top">
                             {
-                                prizesTop.map(prize => this.renderPrize(prize))
+                                prizesTop.map(prize => _this.renderPrize(prize))
                             }
                         </div>
                         <div className="row middle">
                             {
-                                this.renderPrize(prizeLeft)
+                                _this.renderPrize(prizeLeft)
                             }
-                            <div className="button" onClick={() => this.draw()}>
+                            <div className="button" onClick={() => _this.draw()} ref={asSquare}>
                                 <img src={app.buttonImage} alt="点击抽奖"/>
                             </div>
                             {
-                                this.renderPrize(prizeRight)
+                                _this.renderPrize(prizeRight)
                             }
                         </div>
                         <div className="row bottom">
                             {
-                                prizesBottom.map(prize => this.renderPrize(prize))
+                                prizesBottom.map(prize => _this.renderPrize(prize))
                             }
                         </div>
                     </div>

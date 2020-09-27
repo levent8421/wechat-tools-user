@@ -24,9 +24,9 @@ export const normalizePrizes = prizes => {
     const right = prizes[4];
     left.key = 7;
     right.key = 3;
-    for (let i = 5; i < DISPLAY_PRIZES; i++) {
+    for (let i = DISPLAY_PRIZES - 1; i >= 5; i--) {
         const p = prizes[i];
-        p.key = 8 - (i - 1);
+        p.key = i - 1;
         bottom.push(p);
     }
     return {prizesTop: top, prizeLeft: left, prizeRight: right, prizesBottom: bottom};

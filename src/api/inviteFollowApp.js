@@ -6,3 +6,12 @@ export const fetchAppInfo = id => {
         method: 'get',
     });
 };
+
+export const doDraw = appId => {
+    return new Promise(resolve => {
+        resolve({
+            id: 2,
+            name: 'xxx',
+        });
+    });
+};

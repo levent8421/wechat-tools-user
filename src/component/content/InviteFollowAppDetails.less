@@ -56,6 +56,7 @@
       .row {
         display: flex;
         justify-content: space-between;
+        align-items: center;
 
         .prize {
           width: 30%;
@@ -74,10 +75,14 @@
             height: 100%;
             border-radius: 10px;
 
-            img {
-              width: 60%;
-              height: 60%;
-              margin: 10% auto;
+            .image-wrapper {
+              width: 80%;
+              height: 80%;
+
+              img {
+                width: 100%;
+                height: 100%;
+              }
             }
 
             .name {
@@ -100,10 +105,11 @@
         }
 
         .button {
-          margin: 10px auto;
           width: 30%;
           background-color: #F2AD22;
           border-radius: 5px;
+          border: 2px solid #FD8BD1;
+          padding: 2px;
 
           img {
             width: 100%;
