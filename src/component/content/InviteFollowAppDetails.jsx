@@ -11,6 +11,15 @@ const onImageClick = (img) => {
         console.error('暂不支持跳转', url);
     }
 };
+const normalizeImage = img => {
+    if (!img) {
+        return;
+    }
+    const {width, height} = img;
+    const size = Math.max(width, height);
+    img.width = size;
+    img.height = size;
+};
 
 class InviteFollowAppDetails extends Component {
     constructor(props) {
@@ -21,6 +30,7 @@ class InviteFollowAppDetails extends Component {
             prizeLeft: {},
             prizeRight: {},
             prizesBottom: [],
+            activePrize: 1,
         };
     }
 
@@ -44,6 +54,28 @@ class InviteFollowAppDetails extends Component {
         });
     }
 
+    draw() {
+        setInterval(() => {
+            const {activePrize} = this.state;
+            this.setState({
+                activePrize: (activePrize + 1) % 8
+            })
+        }, 200);
+    }
+
+    renderPrize(prize) {
+        const {activePrize} = this.state;
+        const classNames = ['prize'];
+        if (activePrize === prize.key) {
+            classNames.push('active');
+        }
+        return (<div className={classNames.join(' ')} key={prize.id}>
+            <div className="inner">
+                <img src={prize.image} alt={prize.name} ref={normalizeImage}/>
+                <p className="name">{prize.name}</p>
+            </div>
+        </div>);
+    }
 
     render() {
         const {app, prizesTop, prizeLeft, prizeRight, prizesBottom} = this.state;
@@ -63,23 +95,23 @@ class InviteFollowAppDetails extends Component {
                     <div className="prizes">
                         <div className="row top">
                             {
-                                prizesTop.map(prize => (<div className="prize" key={prize.id}>{prize.name}</div>))
+                                prizesTop.map(prize => this.renderPrize(prize))
                             }
                         </div>
                         <div className="row middle">
-                            <div className="prize">
-                                {prizeLeft.name}
+                            {
+                                this.renderPrize(prizeLeft)
+                            }
+                            <div className="button" onClick={() => this.draw()}>
+                                <img src={app.buttonImage} alt="点击抽奖"/>
                             </div>
-                            <div className="button">
-                                抽奖按钮
-                            </div>
-                            <div className="prize">
-                                {prizeRight.name}
-                            </div>
+                            {
+                                this.renderPrize(prizeRight)
+                            }
                         </div>
                         <div className="row bottom">
                             {
-                                prizesBottom.map(prize => (<div className="prize" key={prize.id}>{prize.name}</div>))
+                                prizesBottom.map(prize => this.renderPrize(prize))
                             }
                         </div>
                     </div>

@@ -41,7 +41,7 @@
     .footer {
       color: @titleColor;
       text-align: center;
-      margin-top: 50px;
+      margin-top: 20px;
 
       span {
         background-image: url("../../image/draw_panel_footer_bg.png");
@@ -59,14 +59,57 @@
 
         .prize {
           width: 30%;
-          background-color: white;
-          margin: 10px auto;
+          margin: 5px auto;
+          border: 2px solid #FD8BD1;
+          background-color: #DC4BE3;
+          border-radius: 5px;
+          padding: 2px;
+
+          .inner {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            width: 100%;
+            background-color: #FFFFFF;
+            height: 100%;
+            border-radius: 10px;
+
+            img {
+              width: 60%;
+              height: 60%;
+              margin: 10% auto;
+            }
+
+            .name {
+              width: 100%;
+              text-align: center;
+              height: 20%;
+              margin: 0;
+              padding: 0;
+              color: #7C7A7B;
+              font-size: 1rem;
+              line-height: 1rem;
+            }
+          }
+
+          &.active {
+            border: 2px solid #F2AD22;
+            box-shadow: #F2AD22 0 0 10px;
+            background-color: #F2AD22;
+          }
         }
 
         .button {
           margin: 10px auto;
           width: 30%;
-          background-color: yellow;
+          background-color: #F2AD22;
+          border-radius: 5px;
+
+          img {
+            width: 100%;
+            height: 100%;
+            border-radius: 10px;
+          }
         }
       }
     }
@@ -101,6 +144,14 @@
     .content {
       color: @textColor;
       font-size: 1rem;
+
+      pre {
+        width: 100%;
+        display: block;
+        white-space: pre-wrap;
+        word-break: break-word;
+        margin: 1em 0;
+      }
     }
   }
 
